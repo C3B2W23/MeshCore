@@ -17,10 +17,10 @@ void initVariant() {
   pinMode(PIN_ADC_CTRL, OUTPUT);
   digitalWrite(PIN_ADC_CTRL, LOW);
 
-  pinMode(LED_RED, OUTPUT);
-  pinMode(LED_GREEN, OUTPUT);
-  digitalWrite(LED_GREEN, LOW);
-  digitalWrite(LED_RED, LOW);
+  pinMode(PIN_LED_RED, OUTPUT);
+  pinMode(PIN_LED_BLUE, OUTPUT);
+  digitalWrite(PIN_LED_BLUE, LOW);
+  digitalWrite(PIN_LED_RED, LOW);
 
   // // shutdown gps
   pinMode(PIN_GPS_STANDBY, OUTPUT);
