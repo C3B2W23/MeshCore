@@ -28,27 +28,27 @@
 
 #define NRF_APM                                 // detect usb power
 
-#define BATTERY_PIN             (2) 
-#define ADC_MULTIPLIER          (2.0F)
 
 #define EXT_CHRG_DETECT         (32)            // P1.3
 #define EXT_PWR_DETECT          (31)             // P0.5
 
-#define ADC_RESOLUTION          (14)
-#define BATTERY_SENSE_RES       (12)
-
-#define AREF_VOLTAGE            (3.0)
+#define PIN_VBAT_READ           (5) 
+#define AREF_VOLTAGE            (2.4f)
+#define ADC_MULTIPLIER          (2.0)           //(1.75f)
+// 2.0 gives more coherent value, 4.2V when charged, needs tweaking
+#define ADC_RESOLUTION          (12)
+#define ADC_MAX                 (4096)
 
 #define EEPROM_POWER            (7)
 #define BAT_POWER               (17)
-#define PIN_POWER               (16)
+#define PIN_PWR_EN              (16)
 
 
 ////////////////////////////////////////////////////////////////////////////////
 // UART pin definition
 
-#define PIN_SERIAL1_RX          (22)
-#define PIN_SERIAL1_TX          (20)
+#define PIN_SERIAL1_RX          PIN_GPS_TX
+#define PIN_SERIAL1_TX          PIN_GPS_RX
 
 ////////////////////////////////////////////////////////////////////////////////
 // I2C pin definition
@@ -92,12 +92,12 @@
 // GPS
 
 #define HAS_GPS                     1
-#define PIN_GPS_RX                  PIN_SERIAL1_TX
-#define PIN_GPS_TX                  PIN_SERIAL1_RX
+#define PIN_GPS_RX                  (22)    
+#define PIN_GPS_TX                  (20)
 
 #define PIN_GPS_POWER               (14)
-#define PIN_GPS_EN                  (21)            // P1.11
-#define PIN_GPS_RESET               (25)            // P1.15
+#define PIN_GPS_EN                  (21)            // STANDBY
+#define PIN_GPS_RESET               (25)            // REINIT
 #define GPS_RESET_ACTIVE            LOW
 #define GPS_EN_ACTIVE               HIGH
 #define GPS_BAUDRATE                9600

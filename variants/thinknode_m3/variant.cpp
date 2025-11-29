@@ -63,8 +63,8 @@ const uint32_t g_ADigitalPinMap[] =
 void initVariant()
 {
 /* TODO */
-  pinMode(PIN_POWER, OUTPUT);
-  digitalWrite(PIN_POWER, HIGH);
+  pinMode(PIN_PWR_EN, OUTPUT);
+  digitalWrite(PIN_PWR_EN, HIGH);
 
   pinMode(BAT_POWER, OUTPUT);
   digitalWrite(BAT_POWER, HIGH);

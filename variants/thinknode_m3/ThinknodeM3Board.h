@@ -3,6 +3,8 @@
 #include <MeshCore.h>
 #include <Arduino.h>
 
+#define ADC_FACTOR ((1000.0*ADC_MULTIPLIER*AREF_VOLTAGE)/ADC_MAX)
+
 class ThinknodeM3Board : public mesh::MainBoard {
 protected:
   uint8_t startup_reason;
@@ -12,9 +14,32 @@ public:
   void begin();
 
   uint16_t getBattMilliVolts() override {
+    int adcvalue = 0;
+
+    analogReference(AR_INTERNAL_2_4);
+    analogReadResolution(ADC_RESOLUTION);
+    delay(10);
+
+    // ADC range is 0..2400mV and resolution is 12-bit (0..4095)
+    adcvalue = analogRead(PIN_VBAT_READ);
+    // Convert the raw value to compensated mv, taking the resistor-
+    // divider into account (providing the actual LIPO voltage)
+    return (uint16_t)((float)adcvalue * ADC_FACTOR);
   }
 
   uint8_t getStartupReason() const override { return startup_reason; }
+
+  #if defined(P_LORA_TX_LED)
+  #if !defined(P_LORA_TX_LED_ON)
+    #define P_LORA_TX_LED_ON HIGH
+  #endif
+  void onBeforeTransmit() override {
+    digitalWrite(P_LORA_TX_LED, P_LORA_TX_LED_ON);   // turn TX LED on
+  }
+  void onAfterTransmit() override {
+    digitalWrite(P_LORA_TX_LED, !P_LORA_TX_LED_ON);   // turn TX LED off
+  }
+  #endif
 
   const char* getManufacturerName() const override {
     return "Elecrow ThinkNode M3";
@@ -37,13 +62,6 @@ public:
 
   void reboot() override {
     NVIC_SystemReset();
-  }
-
-  void onBeforeTransmit() override {
-    digitalWrite(PIN_LED_BLUE, LOW);
-  }
-  void onAfterTransmit() override {
-    digitalWrite(PIN_LED_BLUE, HIGH);
   }
 
 //  bool startOTAUpdate(const char* id, char reply[]) override;
